@@ -95,7 +95,64 @@ Plus you start at the 20th index and end at the 0th index. IDK why if you start 
 num_list_to_twentyfive = [i for i in range(0,26)]
 
 def create_2d_list(num_list5):
+    giant_list_matrix = []
+    index = 1 #index will stand as the individual numbers that will fill the matrix
 
+    for row in range(1,6): #the for loop iterates over the range [1-5] (runs five times)
+        list_matrix = [] #each iteration, a row will be created
+
+        for columns in range(1,6): #within a row, another for loop iterates over the range [1-5] -- fills in individual numbers in the row until the range reaches 5 -- (this also runs five times)
+            list_matrix.append(index) 
+            index += 1 #every time a new number is added to the matrix, the index moves onto the next number (1, 2, 3, 4, ..., 25)
+        giant_list_matrix.append(list_matrix) #when done filling out with 5 numbers, the row (called list_matrix) is added to the giant matrix
+        
+    return giant_list_matrix #when the giant matrix has been added with 5 rows (list_matrix's) / when the bigger for loop has run 5 times, the function returns the finished giant matrix.
 
 matrix = create_2d_list(num_list_to_twentyfive)
 print(matrix)
+
+#3.2 Replacing 2D List with Multiples of 3
+
+def modify_2d_list(any_matrix):
+    modified_matrix = [] #big modified matrix
+
+    for row in any_matrix: #for each preexisting row in the inputted matrix
+        modified_list_matrix = [] #initialize a new modified list matrix (each row to be added to the big modified matrix; since there are only 5 preexisting rows, only 5 modified list matrices will be created) 
+        
+        for columns in row: #where columns stands for the numbers in the row (since there are only 5 preexising columns, only 5 modified columns will be made for each modified row).
+            if columns % 3 == 0: #if the columns (number) is divisible by 3 wo leaving a remainder
+                modified_list_matrix.append("?") 
+            else: #if it isn't then leave it
+                modified_list_matrix.append(columns) 
+        
+        modified_matrix.append(modified_list_matrix)
+    return modified_matrix
+
+print(modify_2d_list(matrix))
+
+"""
+I initially started with index again (I initialized index outside of the big for loop and index += 1 inside the smaller for loop like the last function).
+But that gave me a matrix where every number divisible by 3 evenly was '?' BUT every number had its own row so that wasn't working..
+I thought index was supposed to be used to represents the values to be inputted, so that's what I had in place of columns in the modulus operator (index % 3 == 0).
+But after that didn't work I realized columns is because in the prev. function, every column becomes assigned a number value that index was used to input. so then columns was the right variable to use to refer to the numbers.
+"""
+
+#3.3 Summing None-'?' Elements
+
+modified_2d_matrix = modify_2d_list(matrix)
+
+def sum_non_question_elements(modified_2d_matrix):
+    sum = 0 
+    for row in modified_2d_matrix:
+        for num in row:
+            if num != '?':
+                sum += num
+
+    return sum
+
+print(sum_non_question_elements(matrix))
+
+"""
+I originally didn't specify that I wanted to look at the individual columns (numbers) in the matrix so i only had one for loop that wrongly indicated num as the columns (number) when it was actually the rows of the matrix.
+So I added another for loop to specify.
+"""
